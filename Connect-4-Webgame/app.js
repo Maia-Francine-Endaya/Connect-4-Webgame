@@ -7,7 +7,9 @@ const startButton = document.getElementById("start");
 
 const message = document.getElementById("message");
 
+// 12 X 9 grid
 let initialMatrix = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,6 +30,42 @@ const generateRandomNumber = (min, max) =>
 //check row
 const checkAdjacentRowValues = (row) => {
   return verifyArray(initialMatrix[row]);
+}
+
+//Loop though array tand check for same values
+const verifyArray = (arrayElement) => {
+  let bool = false;
+  let elementCount = 0;
+  arrayElement.forEach((element, index) => {
+    if (element == currentPlayer) {
+      elementCount += 1;
+      if (elementCount == 4) {
+        bool = true;
+      }
+      else {
+        elementCount = 0;
+      }
+    }
+  });
+  return bool;
+};
+
+//Check for game over
+const gameOverCheck = () => {
+  let truthCount = 0;
+  for (let innerArray of initialMatrix) {
+    if (innerArray.every((val) => val != 0)) {
+      truthCount += 1;
+    }
+    else {
+      return false;
+    }
+  }
+
+  if (truthCount == 6) {
+    message.innerText = "Game Over";
+    startScreen.classList.remove("hide");
+  }
 }
 
 //check column
@@ -145,9 +183,8 @@ const setPiece = (startCount, colValue) => {
     setPiece(startCount, colValue);
   }
   else {
-    //place circle
     let currentRow = rows[startCount].querySelectorAll(".grid-box");
-    currentRow[colValue].classList.add("filled", 'Player ' + currentPlayer)
+    currentRow[colValue].classList.add("filled", 'Player ' + currentPlayer); //TO DO: Fix here
 
     initializeMatrix[startCount][colValue] =
       currentPlayer;
@@ -167,8 +204,7 @@ const setPiece = (startCount, colValue) => {
 const fillBox = (e) => {
   let colValue = parseInt(e.target.getAttribute("data-value"));
 
-  setPiece(7, colValue);
-  //TO DO: Find a way to implement a multiplayer here:
+  setPiece(8, colValue); //Fix here
   currentPlayer = currentPlayer == 1 ? 4 : 1;
   playerTurn.innerHTML = 'Player <span>' + currentPlayer + '</span> turn';
 }
@@ -188,7 +224,7 @@ const matrixCreator = () => {
       innerDiv.classList.add("grid-box")
       innerDiv.setAttribute("data-value", j);
       innerDiv.addEventListener("click", (e) => {
-        fillBox(e);
+        fillBox(e); //Fix here
       });
 
       outerDiv.appendChild(innerDiv);
@@ -205,3 +241,10 @@ window.onload = startGame = async () => {
   await matrixCreator();
   playerTurn.innerHTML = 'Player <span>' + currentPlayer + '</span> turn';
 };
+
+//Start game
+
+startButton.addEventListener("click", () => {
+  startScreen.classList.add("hide");
+  startGame();
+})
