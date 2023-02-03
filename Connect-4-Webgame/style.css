@@ -27,7 +27,7 @@ body {
 #information {
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .player-wrappers {
@@ -70,4 +70,44 @@ body {
   height: 3.12em;
   border-radius: 50%;
   background: radial-gradient(#4e71ff 1.12em, #001ddd 1.25em);
+}
+
+.startScreen {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #416cea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.startScreen button {
+  background-color: white;
+  font-size: 1.4em;
+  padding: 1em 2em;
+  border: none;
+  outline: none;
+  border-radius: 2em;
+  cursor: pointer;
+}
+
+.grid-row {
+  margin: 0 auto;
+  display: flex;
+}
+
+.grid-box {
+  width: 3em;
+  height: 3em;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(white 1.37em, #416cea 1.43em);
+  cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
